@@ -58,30 +58,6 @@ This diagram illustrates the process of how resumes are screened, ranked, and co
 
 ---
 
-## ⚙️ Installation & Setup
-
-Follow the steps below to set up and run the project:
-
-```bash
-# Clone the repository
-git clone https://github.com/ompatel7572/Ai-powered-resume-screening-system.git
-cd Ai-powered-resume-screening-system
-
-# Set up virtual environment
-python -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-python -m spacy download en_core_web_lg
-
-# Set up the database
-python create_db.py
-
-# Run the application
-python app.py
-
-```
 ## 🚀 Usage Guide
 
 1. **Register/Login**: Create a user account and securely save your Gemini API key.
