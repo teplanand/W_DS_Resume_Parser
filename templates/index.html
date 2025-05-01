@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shortlist AI - Advanced Resume Screening System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary-color: #3f37c9;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 0.5rem;
+            --transition-speed: 0.3s;
+            --sidebar-width: 180px;
+            --header-height: 70px;
+            --success-color: #38b000;
+            --warning-color: #ff9e00;
+            --danger-color: #d90429;
+            --text-color: #4a4a4a;
+            --text-light: #6c757d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            height: var(--header-height);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed);
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+            color: white;
+            padding: 160px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("/api/placeholder/1200/600");
+            background-size: cover;
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform var(--transition-speed);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            background-color: rgba(67, 97, 238, 0.1);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon i {
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Demo Section */
+        .demo {
+            padding: 100px 0;
+            background-color: #f8f9fa;
+        }
+
+        .demo-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .demo-content {
+            flex: 1;
+        }
+
+        .demo-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .demo-content p {
+            margin-bottom: 30px;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .demo-image {
+            flex: 1;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-image img {
+            width: 100%;
+            display: block;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+            background-color: white;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .testimonial-author i {
+            min-width: 60px;
+        }
+
+
+        .testimonial-card {
+            background-color: var(--light-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-content {
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .author-info h4 {
+            margin: 0;
+            color: var(--dark-color);
+        }
+
+        .author-info p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: background-color var(--transition-speed);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                height: auto;
+                padding: 20px 0;
+            }
+
+            nav ul {
+                margin: 20px 0;
+            }
+
+            .hero {
+                padding: 130px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .demo-container {
+                flex-direction: column;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 5px 0;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Button styles */
+        .btn {
+            padding: 10px 24px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Modal */
+        .modal {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Modal Header */
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1.5rem;
+            position: relative;
+            text-align: center;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .modal-header p {
+            margin: 0.5rem 0 0;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: rotate(90deg);
+        }
+
+        /* Modal Body */
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #dbe0ea;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: all var(--transition-speed);
+            background-color: #f8faff;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            outline: none;
+            background-color: white;
+        }
+
+        .form-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 2.8rem;
+            color: #adb5bd;
+            transition: all var(--transition-speed);
+        }
+
+        .form-control:focus+.form-icon {
+            color: var(--primary-color);
+        }
+
+        .form-help {
+            display: block;
+            margin-top: 0.25rem;
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            background-color: #ddd;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        .password-strength-bar {
+            height: 100%;
+            border-radius: 2px;
+            width: 0;
+            transition: all 0.3s;
+        }
+
+        .strength-weak .password-strength-bar {
+            width: 33%;
+            background-color: var(--danger-color);
+        }
+
+        .strength-medium .password-strength-bar {
+            width: 66%;
+            background-color: var(--warning-color);
+        }
+
+        .strength-strong .password-strength-bar {
+            width: 100%;
+            background-color: var(--success-color);
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 1rem 1.5rem 1.5rem;
+            text-align: center;
+            border-top: 1px solid #f1f3f9;
+        }
+
+        .modal-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed);
+        }
+
+        .modal-footer a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        /* Form submit button */
+        .modal-submit {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .modal-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Alert messages */
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert-icon {
+            margin-right: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .alert-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #664d03;
+        }
+
+        .alert-info {
+            background-color: #cfe2ff;
+            color: #084298;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 0.3rem;
+            color: #adb5bd;
+        }
+
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+
+
+        /* Tab system for login/signup */
+        .modal-tabs {
+            display: flex;
+            border-bottom: 1px solid #f1f3f9;
+        }
+
+        .modal-tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all var(--transition-speed);
+            position: relative;
+        }
+
+        .modal-tab.active {
+            color: var(--primary-color);
+        }
+
+        .modal-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform var(--transition-speed);
+        }
+
+        .modal-tab.active::after {
+            transform: scaleX(1);
+        }
+
+        .modal-tab-content {
+            display: none;
+        }
+
+        .modal-tab-content.active {
+            display: block;
+        }
+
+        /* For the form flash messages */
+        #flashMessages {
+            margin-bottom: 1rem;
+        }
+
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary-color: #3f37c9;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 0.5rem;
+            --transition-speed: 0.3s;
+            --sidebar-width: 180px;
+            --header-height: 70px;
+            --success-color: #38b000;
+            --danger-color: #d90429;
+            --warning-color: #ff9e00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-color);
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+
+        /* Video container styling */
+        .demo-video {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .video-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3a7bd5, #00d2ff);
+            z-index: 1;
+        }
+
+        /* For responsive video */
+        @media (max-width: 768px) {
+            .demo-video {
+                margin-top: 30px;
+            }
+
+            .video-container {
+                width: 100%;
+            }
+
+            .video-container iframe {
+                height: 300px;
+            }
+        }
+
+
+        @media (max-width: 576px) {
+            .logo {
+                display: none;
+                /* Hide the logo */
+            }
+
+            nav ul {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .auth-buttons {
+                flex-direction: row;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo {
+                display: none;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .header-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 80px;
+                /* or adjust as needed */
+            }
+
+            .auth-buttons {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <!-- <i class="fas fa-file-alt" style="font-size: 24px; color: var(--primary-color);"></i> -->
+                <h1>Shortlist<span>.ai</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#demo">How it Works</a></li>
+                    <li><a href="#testimonials">Developers</a></li>
+                    <!-- <li><a href="#pricing">Pricing</a></li> -->
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+
+
+                <button class="btn btn-outline" id="openLoginBtn">Login</button>
+                <button class="btn btn-primary" id="openSignupBtn">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Modal Overlay -->
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Revolutionize Your Hiring Process with AI-Powered Resume Screening</h1>
+            <p>Streamline candidate selection with advanced NLP and machine learning algorithms that match the perfect
+                candidates to your job requirements with unparalleled accuracy.</p>
+            <div class="cta-buttons">
+                <a href="#demo" class="btn btn-primary">See How It Works</a>
+                <!-- <a href="#demo" class="btn btn-outline">See How It Works</a> -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Advanced AI Features</h2>
+                <p>Our cutting-edge technology transforms the way you screen resumes, saving time and improving hiring
+                    decisions</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Gemini AI-Powered Parsing</h3>
+                    <p>Leverage Google's advanced Gemini AI to automatically extract and structure candidate information
+                        including name, contact details, skills, education, experience, and references with remarkable
+                        accuracy.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>NLP-Enhanced Skill Analysis</h3>
+                    <p>Our system utilizes Wikipedia knowledge expansion to understand skills in context, identifying
+                        related competencies and technologies that candidates may not have explicitly mentioned.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Intelligent Scoring Algorithm</h3>
+                    <p>Proprietary machine learning models calculate weighted scores based on skills relevance,
+                        experience duration, project complexity, and educational qualifications tailored to your
+                        specific job requirements.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Fuzzy Degree Matching</h3>
+                    <p>Our system understands educational equivalencies across global universities and institutions,
+                        recognizing similar degrees and qualifications regardless of naming conventions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-filter"></i>
+                    </div>
+                    <h3>Custom Screening Criteria</h3>
+                    <p>Define minimum education requirements, essential skills, and experience thresholds to
+                        automatically filter candidates that meet your specific standards for the position.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Intuitive Candidate Dashboard</h3>
+                    <p>Review candidate profiles through a clean, modern interface that highlights key qualifications,
+                        presents comparative analysis, and enables quick decision-making.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <div class="modal-header">
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Welcome to Shortlist AI</h2>
+                <!-- <p>Revolutionize your hiring process today</p>  -->
+            </div>
+
+            <div class="modal-tabs">
+                <div class="modal-tab" id="loginTab">Login</div>
+                <div class="modal-tab active" id="signupTab">Sign Up</div>
+            </div>
+
+
+            <!-- Login Form -->
+            <div class="modal-tab-content" id="loginContent">
+                <div class="modal-body">
+                    <form id="loginForm" method="POST" action="/login">
+                        <div class="form-group">
+                            <label for="login-email" class="form-label">Email Address</label>
+                            <input type="email" id="login-email" name="email" class="form-control"
+                                placeholder="Enter your email" required>
+                            <i class="fas fa-envelope form-icon"></i>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="login-password" class="form-label">Password</label>
+                            <input type="password" id="login-password" name="password" class="form-control"
+                                placeholder="Enter your password" required>
+                            <i class="fas fa-lock form-icon"></i>
+                        </div>
+
+                        <button type="submit" class="modal-submit">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </form>
+                </div>
+
+                <!-- <div class="modal-footer">
+                    <p>Forgot your password? <a href="/reset-password">Reset it here</a></p>
+                </div> -->
+            </div>
+
+            <!-- Signup Form -->
+            <div class="modal-tab-content active" id="signupContent">
+                <div class="modal-body">
+                    <form id="signupForm" method="POST" action="/signup">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" id="name" name="name" class="form-control"
+                                placeholder="Enter your full name" required>
+                            <i class="fas fa-user form-icon"></i>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-control"
+                                placeholder="Enter your email address" required>
+                            <i class="fas fa-envelope form-icon"></i>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" name="password" class="form-control"
+                                placeholder="Choose a strong password" required>
+                            <i class="fas fa-lock form-icon"></i>
+                            <div id="passwordStrength" class="password-strength">
+                                <div class="password-strength-bar"></div>
+                            </div>
+                            <small class="form-help">Use at least 8 characters with letters, numbers, and
+                                symbols</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gemini_api_key" class="form-label">
+                                Gemini API Key
+                                <span class="tooltip">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span class="tooltip-text">Your Gemini API key will be used to power AI features.
+                                        Get your key from Google AI Studio.</span>
+                                </span>
+                            </label>
+                            <input type="password" id="gemini_api_key" name="gemini_api_key" class="form-control"
+                                placeholder="Enter your Gemini API key">
+                            <i class="fas fa-key form-icon"></i>
+                            <small class="form-help">Don't have a key? <a href="https://ai.google.dev/"
+                                    target="_blank">Get one here</a></small>
+                        </div>
+
+                        <button type="submit" class="modal-submit">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo Section -->
+
+    <section id="demo" class="demo">
+        <div class="container demo-container">
+            <div class="demo-content">
+                <h2>See Shortlist AI in Action</h2>
+                <p>Our intelligent system transforms stacks of resumes into actionable insights, helping you identify
+                    top talent quickly and objectively. Watch how our platform processes, analyzes, and ranks candidates
+                    based on your specific job requirements.</p>
+                <a href="#" class="btn btn-primary">Request Live Demo</a>
+            </div>
+            <div class="demo-video">
+                <div class="video-container">
+                    <iframe width="600" height="400" src="https://www.youtube.com/embed/h3xJm_hjvio"
+                        title="Shortlist AI Demo Video" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Developers Say</h2>
+                <p>Companies across industries have transformed their hiring process with Shortlist AI</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"Shortlist AI reduced our time-to-hire by 65% and helped us identify candidates we would have
+                            missed with traditional screening methods. The AI-powered scoring is remarkably accurate."
+                        </p>
+                    </div>
+                    <div class="testimonial-author">
+                        <i class="fas fa-user-circle" style="font-size: 60px; color: #007BFF;"></i>
+                        <div class="author-info">
+                            <h4>OM</h4>
+                            <p>ADIT</p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The fuzzy degree matching feature has been invaluable for our international recruitment
+                            efforts. We can now properly evaluate candidates from diverse educational backgrounds."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <i class="fas fa-user-circle" style="font-size: 60px; color: #007BFF;"></i>
+                        <div class="author-info">
+                            <h4>Vedant</h4>
+                            <p>ADIT</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The intuitive dashboard makes reviewing candidates a breeze. What used to take our team days
+                            now takes hours, and the quality of our shortlists has significantly improved, it's just
+                            amazing."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <i class="fas fa-user-circle" style="font-size: 60px; color: #007BFF;"></i>
+                        <div class="author-info">
+                            <h4>Sarhan, Dev</h4>
+                            <p>MBIT, GCET</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <!-- <section class="cta">
+        <div class="container">
+            <h2>Transform Your Hiring Process Today</h2>
+            <p>Join hundreds of companies that have revolutionized their recruitment workflow with our AI-powered resume screening system.</p>
+            <div class="cta-buttons">
+                <a href="/signup" class="btn btn-primary">Start Free Trial</a>
+                <a href="#" class="btn btn-outline">Schedule a Demo</a>
+            </div>
+        </div>
+    </section> -->
+
+    <!-- Footer -->
+    <footer>
+        <!-- <div class="container"> -->
+        <!-- <div class="footer-content">
+                <div class="logo">
+                    <i class="fas fa-file-alt" style="font-size: 24px; color: white;"></i>
+                    <h1 style="color: white;">Resume<span>AI</span></h1>
+                </div>
+                <div class="footer-column">
+                    <p style="color: rgba(255,255,255,0.7); margin-top: 20px;">Next-generation AI-powered resume screening technology that transforms how companies identify talent.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Webinars</a></li>
+                        <li><a href="#">Case Studies</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">GDPR Compliance</a></li>
+                    </ul>
+                </div>
+            </div> -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Shortlist AI. All rights reserved.</p>
+        </div>
+        <!-- </div> -->
+    </footer>
+
+    <script>
+        {% if session.get('message') %}
+        const message = {{ session.get('message') | tojson }};
+        const messageType = {{ session.get('message_type') | tojson }};
+
+        // Basic alert (replace with SweetAlert or Toastify if you want fancy UI later)
+        alert(message);
+
+
+        {% endif %}
+    </script>
+
+    <script>
+        // Toggle modal visibility
+        const openSignupBtn = document.getElementById('openSignupBtn');
+        const openLoginBtn = document.getElementById('openLoginBtn');
+        const closeModal = document.getElementById('closeModal');
+        const authModal = document.getElementById('authModal');
+
+        // Tab system
+        const loginTab = document.getElementById('loginTab');
+        const signupTab = document.getElementById('signupTab');
+        const loginContent = document.getElementById('loginContent');
+        const signupContent = document.getElementById('signupContent');
+
+
+
+
+
+        // Open modal with signup form
+        openSignupBtn.addEventListener('click', () => {
+            authModal.classList.add('active');
+            setActiveTab('signup');
+        });
+
+        // Open modal with login form
+        openLoginBtn.addEventListener('click', () => {
+            authModal.classList.add('active');
+            setActiveTab('login');
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            authModal.classList.remove('active');
+        });
+
+        // Close modal if clicking outside the modal content
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                authModal.classList.remove('active');
+            }
+        });
+
+        // Tab switching
+        loginTab.addEventListener('click', () => setActiveTab('login'));
+        signupTab.addEventListener('click', () => setActiveTab('signup'));
+
+        function setActiveTab(tab) {
+            if (tab === 'login') {
+                loginTab.classList.add('active');
+                signupTab.classList.remove('active');
+                loginContent.classList.add('active');
+                signupContent.classList.remove('active');
+            } else {
+                signupTab.classList.add('active');
+                loginTab.classList.remove('active');
+                signupContent.classList.add('active');
+                loginContent.classList.remove('active');
+            }
+        }
+
+        // Password strength meter
+        const passwordInput = document.getElementById('password');
+        const strengthIndicator = document.getElementById('passwordStrength');
+
+        passwordInput.addEventListener('input', function () {
+            const password = this.value;
+
+            // Remove all classes first
+            strengthIndicator.classList.remove('strength-weak', 'strength-medium', 'strength-strong');
+
+            if (password.length === 0) {
+                return;
+            }
+
+            let strength = 0;
+
+            // Length check
+            if (password.length >= 8) strength += 1;
+
+            // Character variety check
+            if (/[A-Z]/.test(password) && /[a-z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+
+            if (strength <= 2) {
+                strengthIndicator.classList.add('strength-weak');
+            } else if (strength <= 3) {
+                strengthIndicator.classList.add('strength-medium');
+            } else {
+                strengthIndicator.classList.add('strength-strong');
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>

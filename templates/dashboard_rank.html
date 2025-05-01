@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screening</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary-color: #3f37c9;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 0.5rem;
+            --transition-speed: 0.3s;
+            --sidebar-width: 180px;
+            --header-height: 70px;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all var(--transition-speed);
+            overflow-y: auto;
+            color: var(--dark-color);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #6c757d;
+            transition: all var(--transition-speed);
+            border-left: 3px solid transparent;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 0 0.5rem 0.25rem 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+            border-left: 3px solid var(--primary-color);
+            font-weight: 600;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            color: inherit;
+        }
+
+        /* Special styling for logout */
+        .nav-link.text-danger {
+            color: #dc3545;
+        }
+
+        .nav-link.text-danger:hover {
+            background-color: rgba(220, 53, 69, 0.05);
+            border-left: 3px solid #dc3545;
+        }
+
+        /* Main content area */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: all var(--transition-speed);
+            padding-top: calc(var(--header-height) + 20px);
+            min-height: 100vh;
+        }
+
+        /* Header styling */
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: var(--sidebar-width);
+            height: var(--header-height);
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 900;
+            transition: all var(--transition-speed);
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .user-dropdown {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-dropdown img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-dropdown span {
+            font-weight: 500;
+        }
+
+        .user-dropdown .dropdown-toggle::after {
+            margin-left: 10px;
+        }
+
+        /* Card styling */
+        .card {
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            margin-bottom: 2rem;
+            border: none;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            width: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-top-left-radius: var(--border-radius) !important;
+            border-top-right-radius: var(--border-radius) !important;
+            padding: 1.25rem 1.75rem;
+            border-bottom: none;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Form controls */
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            border-radius: var(--border-radius);
+            padding: 0.85rem 1rem;
+            border: 1px solid #ced4da;
+            transition: all var(--transition-speed);
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+        .form-select {
+            border-radius: var(--border-radius);
+            padding: 0.85rem 1rem;
+            transition: all var(--transition-speed);
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+
+        /* Button styling */
+        .btn {
+            transition: all var(--transition-speed);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-hover) 0%, var(--secondary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-info {
+            background-color: #4cc9f0;
+            border-color: #4cc9f0;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background-color: #3ab4da;
+            border-color: #3ab4da;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: #ef476f;
+            border-color: #ef476f;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d63d62;
+            border-color: #d63d62;
+            transform: translateY(-2px);
+        }
+
+        /* Action buttons */
+        .btn-action {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 3px;
+            transition: all var(--transition-speed);
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Stats card */
+        .stats-card {
+            border-radius: var(--border-radius);
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            transition: all var(--transition-speed);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            border-radius: 12px;
+        }
+
+        .stats-details h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stats-details p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        /* Skills container */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: var(--border-radius);
+            min-height: 100px;
+            background-color: #fff;
+            transition: all var(--transition-speed);
+            width: 100%;
+        }
+
+        .skills-container:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+        .skill-tag {
+            background-color: #e7ecff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            border: 1px solid rgba(67, 97, 238, 0.2);
+            transition: all var(--transition-speed);
+        }
+
+        .skill-tag:hover {
+            background-color: #d8e0ff;
+            transform: scale(1.02);
+        }
+
+        .skill-tag span {
+            margin-right: 8px;
+        }
+
+        .skill-tag button {
+            border: none;
+            background: none;
+            color: var(--primary-color);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: all var(--transition-speed);
+        }
+
+        .skill-tag button:hover {
+            color: #ff5252;
+            transform: scale(1.2);
+        }
+
+        .skills-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            min-width: 150px;
+            padding: 4px;
+            font-size: 0.95rem;
+        }
+
+        .skills-input:focus {
+            outline: none;
+        }
+
+        /* Weight sliders */
+        .weight-sliders {
+            display: flex;
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .weight-sliders .form-group {
+            flex: 1;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            transition: all var(--transition-speed);
+            border: 1px solid #e9ecef;
+        }
+
+        .weight-sliders .form-group:hover {
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-range {
+            height: 8px;
+            width: 100%;
+        }
+
+        .form-range::-webkit-slider-thumb {
+            background: var(--primary-color);
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+        }
+
+        .form-range::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* Table styling */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .table,
+        .resume-table {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .resume-table th {
+            background-color: #e7ecff;
+            color: var(--primary-color);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .table th,
+        .table td,
+        .resume-table th,
+        .resume-table td {
+            padding: 0.75rem;
+            vertical-align: middle;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .resume-table td {
+            border: 1px solid #dee2e6 !important;
+        }
+
+        .table tbody tr,
+        .resume-table tbody tr {
+            transition: background-color var(--transition-speed);
+        }
+
+        .table tbody tr:hover,
+        .resume-table tbody tr:hover {
+            background-color: #f0f4ff;
+        }
+
+        /* Parsed skills column */
+        .parsed-skills-column {
+            min-width: 220px;
+            max-width: 300px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .parsed-skills-column::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .parsed-skills-column::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+
+        .parsed-skills-column .badge {
+            margin: 0 2px 4px 0;
+        }
+
+        /* Badge styles */
+        .badge-score {
+            font-size: 1rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--border-radius);
+        }
+
+        /* Filter tools */
+        .filter-tools {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-tools .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* Result header */
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                padding-top: 1rem;
+            }
+
+            .sidebar-logo {
+                font-size: 1.2rem;
+            }
+
+            .sidebar-header {
+                padding: 1rem 0.5rem;
+            }
+
+            .nav-link {
+                padding: 0.75rem;
+                justify-content: center;
+            }
+
+            .nav-link i {
+                margin-right: 0;
+            }
+
+            .nav-link span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .header {
+                left: 70px;
+            }
+        }
+
+        /* Mobile view */
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 0;
+                opacity: 0;
+            }
+
+            .sidebar.active {
+                width: var(--sidebar-width);
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header {
+                left: 0;
+            }
+
+            .mobile-toggle {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-logo">ShortlistAI</h1>
+        </div>
+        <ul class="sidebar-nav nav flex-column">
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link ">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard_candidate" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Candidates</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard_rank" class="nav-link active">
+                    <i class="fas fa-sort-amount-down"></i>
+                    <span>Screening</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/settings" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li class="nav-item mt-4">
+                <a href="/logout" class="nav-link text-danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="d-flex align-items-center">
+            <!-- <span class="mobile-toggle me-3" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </span> -->
+            <h1 class="header-title mb-0">Screening</h1>
+        </div>
+        <div class="dropdown">
+            <div class="user-dropdown d-flex align-items-center" data-bs-toggle="dropdown">
+                <i class="fas fa-user-circle" style="font-size: 40px; color: #4361ee;"></i>
+                <span class="ms-2">{{session['name']}}</span>
+                <i class="fas fa-chevron-down ms-2 small"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <!-- <li><a class="dropdown-item" href="/profile"><i class="fas fa-user me-2"></i>Profile</a></li> -->
+                <li><a class="dropdown-item" href="/settings"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-danger" href="/logout"><i
+                            class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <!-- <div class="col-lg-10"> -->
+            <div class="card mb-4">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">Resume Screening</h5>
+                </div>
+                <div class="card-body p-4">
+                    <!-- Alert message -->
+                    <!-- 
+                    <div class="card-footer bg-light">
+                        <div class="progress d-none" id="progressContainer">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                                style="width: 0%"></div>
+                        </div> -->
+
+                    <!-- Ranking Criteria Section -->
+                    <div class="mb-4">
+
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-file-upload me-2"></i>Ranking Criteria</h5>
+                        </div>
+
+
+                        <form action="/rank" method="POST" class="mb-4" id="rankForm">
+                            <span style="white-space: pre;"> </span>
+                            <div class="mb-4" style="margin-top: 5px;">
+                                <label class="form-label" style="margin-top: 5px;">Job Role</label>
+                                <input type="text" name="job_role" class="form-control"
+                                    placeholder="e.g. Frontend Developer, Data Scientist, Product Manager" required
+                                    onkeydown="return event.key !== 'Enter';">
+                            </div>
+
+
+                            <div class="mb-4">
+                                <label class="form-label">Required Skills</label>
+                                <div class="skills-container" id="skillsContainer">
+                                    <input type="text" class="skills-input" id="skillsInput"
+                                        placeholder="Type skills and press Enter">
+                                </div>
+                                <div class="form-text">
+                                    <i class="fas fa-lightbulb me-1"></i> Type skills (e.g. JavaScript, Python,
+                                    SQL)
+                                    and
+                                    press Enter to add
+                                </div>
+                                <input type="hidden" name="jd" id="skillsHiddenInput">
+                            </div>
+
+                            <!-- Weight Sliders Section -->
+                            <div class="weight-sliders mb-4">
+
+                                <div class="form-group">
+                                    <label class="form-label d-flex justify-content-between">
+                                        <span><i class="fas fa-code me-2"></i>Skill Weight</span>
+                                        <span id="skillWeightValue" class="badge bg-primary">50%</span>
+                                    </label>
+                                    <input type="range" name="skill_weight" class="form-range" min="0" max="100"
+                                        value="50" id="skillWeight">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label d-flex justify-content-between">
+                                        <span><i class="fas fa-graduation-cap me-2"></i>Education Weight</span>
+                                        <span id="eduWeightValue" class="badge bg-primary">50%</span>
+                                    </label>
+                                    <input type="range" name="edu_weight" class="form-range" min="0" max="100"
+                                        value="50" id="eduWeight">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label d-flex justify-content-between">
+                                        <span><i class="fas fa-briefcase me-2"></i>Experience Weight</span>
+                                        <span id="expWeightValue" class="badge bg-primary">50%</span>
+                                    </label>
+                                    <input type="range" name="exp_weight" class="form-range" min="0" max="100"
+                                        value="50" id="expWeight">
+                                </div>
+
+                            </div>
+
+                            <!-- Education Requirements Section -->
+                            <div class="mb-4">
+                                <label class="form-label">Required Degrees</label>
+                                <div class="skills-container" id="degreesContainer">
+                                    <input type="text" class="skills-input" id="degreesInput"
+                                        placeholder="Type degrees and press Enter (e.g. Bachelor's in CS, MBA)">
+                                </div>
+                                <div class="form-text">
+                                    <i class="fas fa-info-circle me-1"></i> Type degrees (e.g. B.Tech, Master's
+                                    in
+                                    CS,
+                                    PhD) and press Enter to add
+                                </div>
+                                <input type="hidden" name="required_degrees" id="degreesHiddenInput">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Minimum Education Score</label>
+                                <select name="min_edu_score" class="form-select" id="minEduScore">
+                                    <option value="">None (No minimum score)</option>
+                                    <option value="0.5">50% (Pass/D Grade)</option>
+                                    <option value="0.6">60% (C Grade)</option>
+                                    <option value="0.7">70% (B Grade)</option>
+                                    <option value="0.8">80% (A Grade)</option>
+                                    <option value="0.9">90% (A+ Grade)</option>
+                                    <option value="custom">Custom Score...</option>
+                                </select>
+
+                                <div id="customScoreContainer" class="mt-3 p-3 border rounded d-none bg-light">
+                                    <div class="input-group mb-3">
+                                        <input type="number" id="customScoreValue" class="form-control" min="0"
+                                            step="0.01" placeholder="Score value">
+                                        <span class="input-group-text">/</span>
+                                        <input type="number" id="customScoreScale" class="form-control" min="1"
+                                            step="0.01" placeholder="Scale (4.0, 10.0, 100, etc.)">
+                                    </div>
+
+                                    <div class="custom-score-buttons mb-3">
+                                        <button type="button" class="btn btn-outline-primary" data-scale="4.0">
+                                            <i class="fas fa-university me-1"></i>GPA (4.0)
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary" data-scale="10.0">
+                                            <i class="fas fa-chart-line me-1"></i>CGPA (10.0)
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary" data-scale="100">
+                                            <i class="fas fa-percent me-1"></i>Percentage (%)
+                                        </button>
+                                    </div>
+
+                                    <div class="d-flex justify-content-end">
+                                        <button type="button" class="btn btn-primary" id="applyCustomScore">
+                                            <i class="fas fa-check me-1"></i>Apply
+                                        </button>
+                                    </div>
+
+                                    <div class="form-text mt-2">
+                                        <i class="fas fa-info-circle me-1"></i> Enter your score and the maximum
+                                        possible value
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="custom_min_edu_score" id="customMinEduScore">
+                            </div>
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg" id="rankBtn">
+                                    <i class="fas fa-sort-amount-down me-2"></i>Rank Resumes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            {% if ranked_resumes %}
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw"> Ranked Resumes</h5>
+                        <a href="{{ url_for('clear_results') }}" class="btn btn-danger">
+                            <i class="fas fa-trash-alt me-2"></i> Clear Results
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="text-center">Rank</th>
+                                    <th>Name</th>
+                                    <th class="text-center">Total Score</th>
+                                    <th class="text-center">Skills</th>
+                                    <th class="text-center">Education</th>
+                                    <th class="text-center">Experience</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for resume in ranked_resumes %}
+                                <tr>
+                                    <td class="text-center">
+                                        <span class="badge bg-primary fs-6">{{ loop.index }}</span>
+                                    </td>
+                                    <td>
+                                        <strong class="text-dark">{{ resume.name }}</strong>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge 
+                                    {% if resume.total_score >= 80 %}bg-success 
+                                    {% elif resume.total_score >= 60 %}bg-warning 
+                                    {% else %}bg-danger{% endif %} fs-6">
+                                            {{ resume.total_score }}%
+                                        </span>
+                                    </td>
+                                    <!-- <td class="text-center text-primary fw-bold">{{ resume.skill_score }}</td> -->
+                                    <td
+                                        style="font-family: Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.5;">
+                                        <div style="text-align: center; width: 100%;">
+                                            {% for skill, score in resume.skill_breakdown.items() %}
+                                            <span style="display: block; margin-bottom: 5px;">
+                                                <strong style="color: #007bff;">{{ skill }}:</strong> {{ score }}
+                                            </span>
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+
+                                    <td class="text-center text-secondary">{{ resume.degree_score }}</td>
+                                    <td class="text-center text-success">{{ resume.exp_score }}</td>
+                                    <td class="text-center">
+                                        <a href="{{ url_for('resume_detail', index=resume.index) }}"
+                                            class="btn btn-info btn-sm">
+                                            <i class="fas fa-eye me-1"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Skills input elements
+            const skillsInput = document.getElementById('skillsInput');
+            const skillsContainer = document.getElementById('skillsContainer');
+            const skillsHiddenInput = document.getElementById('skillsHiddenInput');
+            let skills = [];
+
+            // Weight sliders
+            const expWeight = document.getElementById('expWeight');
+            const eduWeight = document.getElementById('eduWeight');
+            const skillWeight = document.getElementById('skillWeight');
+            const expWeightValue = document.getElementById('expWeightValue');
+            const eduWeightValue = document.getElementById('eduWeightValue');
+            const skillWeightValue = document.getElementById('skillWeightValue');
+
+            // Education score elements
+            const minEduScoreSelect = document.getElementById('minEduScore');
+            const customScoreContainer = document.getElementById('customScoreContainer');
+            const customScoreValue = document.getElementById('customScoreValue');
+            const customScoreScale = document.getElementById('customScoreScale');
+            const applyCustomScoreBtn = document.getElementById('applyCustomScore');
+            const customMinEduScore = document.getElementById('customMinEduScore');
+            const scaleButtons = document.querySelectorAll('[data-scale]');
+
+            // Degrees input elements
+            const degreesContainer = document.getElementById('degreesContainer');
+            const degreesInput = document.getElementById('degreesInput');
+            const degreesHiddenInput = document.getElementById('degreesHiddenInput');
+            let degrees = [];
+
+            // ===== SKILLS INPUT FUNCTIONALITY =====
+
+            // Function to update the hidden input value
+            function updateSkillsInput() {
+                if (skillsHiddenInput) {
+                    skillsHiddenInput.value = skills.join(', ');
+                }
+            }
+
+            // Function to create a new skill tag
+            function addSkillTag(skill) {
+                if (skill.trim() === '') return;
+                if (skills.includes(skill.trim())) return; // Prevent duplicates
+                if (!skillsContainer || !skillsInput) return;
+
+                // Create the tag element
+                const tagElement = document.createElement('div');
+                tagElement.className = 'skill-tag';
+
+                // Add the skill text
+                const skillText = document.createElement('span');
+                skillText.textContent = skill;
+                tagElement.appendChild(skillText);
+
+                // Add the remove button
+                const removeButton = document.createElement('button');
+                removeButton.textContent = '×';
+                removeButton.addEventListener('click', function () {
+                    tagElement.remove();
+                    // Remove the skill from the array
+                    const index = skills.indexOf(skill);
+                    if (index !== -1) {
+                        skills.splice(index, 1);
+                        updateSkillsInput();
+                    }
+                });
+                tagElement.appendChild(removeButton);
+
+                // Add the tag before the input
+                skillsContainer.insertBefore(tagElement, skillsInput);
+
+                // Add skill to the array
+                skills.push(skill);
+                updateSkillsInput();
+            }
+
+            // Handle keydown on the skills input
+            if (skillsInput) {
+                skillsInput.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const skill = skillsInput.value.trim();
+                        if (skill) {
+                            addSkillTag(skill);
+                            skillsInput.value = '';
+                        }
+                    }
+                });
+            }
+
+            // ===== WEIGHT SLIDERS =====
+
+            // Weight slider events
+            if (expWeight && expWeightValue) {
+                expWeight.addEventListener('input', function () {
+                    expWeightValue.textContent = this.value + '%';
+                });
+            }
+
+            if (eduWeight && eduWeightValue) {
+                eduWeight.addEventListener('input', function () {
+                    eduWeightValue.textContent = this.value + '%';
+                });
+            }
+
+            if (skillWeight && skillWeightValue) {
+                skillWeight.addEventListener('input', function () {
+                    skillWeightValue.textContent = this.value + '%';
+                });
+            }
+
+            // ===== EDUCATION SCORE HANDLING =====
+
+            // Show/hide custom score input based on selection
+            if (minEduScoreSelect && customScoreContainer) {
+                minEduScoreSelect.addEventListener('change', function () {
+                    if (this.value === 'custom') {
+                        customScoreContainer.classList.remove('d-none');
+                        if (customScoreValue) customScoreValue.focus();
+                    } else {
+                        customScoreContainer.classList.add('d-none');
+                        // If a predefined value is selected, clear the custom value
+                        if (customMinEduScore) customMinEduScore.value = '';
+                    }
+                });
+            }
+
+            // Quick scale selection buttons
+            if (scaleButtons && scaleButtons.length) {
+                scaleButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        if (!customScoreScale || !customScoreValue) return;
+
+                        const scale = this.getAttribute('data-scale');
+                        customScoreScale.value = scale;
+
+                        // Auto-fill reasonable default values based on scale
+                        if (customScoreValue.value === '') {
+                            if (scale === '4.0') customScoreValue.value = '3.0';
+                            else if (scale === '10.0') customScoreValue.value = '7.0';
+                            else if (scale === '100') customScoreValue.value = '60';
+                        }
+
+                        // Focus on the value input if it's empty
+                        customScoreValue.focus();
+                    });
+                });
+            }
+
+            // Handle custom score calculation and application
+            if (applyCustomScoreBtn) {
+                applyCustomScoreBtn.addEventListener('click', function () {
+                    if (!customScoreValue || !customScoreScale || !customMinEduScore || !minEduScoreSelect || !customScoreContainer) return;
+
+                    const scoreValue = parseFloat(customScoreValue.value.trim());
+                    const scaleValue = parseFloat(customScoreScale.value.trim());
+
+                    if (isNaN(scoreValue) || isNaN(scaleValue)) {
+                        alert('Please enter valid numbers for score and scale');
+                        return;
+                    }
+
+                    if (scaleValue <= 0) {
+                        alert('Scale must be greater than 0');
+                        return;
+                    }
+
+                    if (scoreValue < 0 || scoreValue > scaleValue) {
+                        alert(`Score must be between 0 and ${scaleValue}`);
+                        return;
+                    }
+
+                    // Calculate normalized value (0-1 scale)
+                    const normalizedValue = scoreValue / scaleValue;
+
+                    // Set the hidden input value
+                    customMinEduScore.value = normalizedValue.toFixed(4);
+
+                    // Determine display text based on scale
+                    let displayText = '';
+                    if (scaleValue === 4.0) {
+                        displayText = `Custom: ${scoreValue.toFixed(1)}/4.0 GPA`;
+                    } else if (scaleValue === 10.0) {
+                        displayText = `Custom: ${scoreValue.toFixed(1)}/10.0 CGPA`;
+                    } else if (scaleValue === 100) {
+                        displayText = `Custom: ${scoreValue.toFixed(0)}%`;
+                    } else {
+                        displayText = `Custom: ${scoreValue.toFixed(1)}/${scaleValue.toFixed(1)}`;
+                    }
+
+                    // Update the select element
+                    const existingCustomOption = Array.from(minEduScoreSelect.options).find(option =>
+                        option.text.startsWith('Custom: '));
+
+                    if (existingCustomOption) {
+                        existingCustomOption.text = displayText;
+                        existingCustomOption.value = 'custom_set';
+                        minEduScoreSelect.value = 'custom_set';
+                    } else {
+                        const newOption = new Option(displayText, 'custom_set');
+                        minEduScoreSelect.add(newOption, 6); // Add before the "Custom Score..." option
+                        minEduScoreSelect.value = 'custom_set';
+                    }
+
+                    // Hide the custom input container
+                    customScoreContainer.classList.add('d-none');
+                });
+            }
+
+            // Handle Enter key in the custom inputs
+            if (customScoreValue && customScoreScale && applyCustomScoreBtn) {
+                [customScoreValue, customScoreScale].forEach(input => {
+                    input.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            applyCustomScoreBtn.click();
+                        }
+                    });
+                });
+            }
+
+            // ===== DEGREES INPUT HANDLING =====
+
+            // Update degrees hidden input
+            function updateDegreesInput() {
+                if (degreesHiddenInput) {
+                    degreesHiddenInput.value = JSON.stringify(degrees);
+                }
+            }
+
+            // Create a degree tag
+            function createDegreeTag(degree) {
+                const tag = document.createElement('div');
+                tag.className = 'skill-tag';
+                tag.innerHTML = `
+            <span>${degree}</span>
+            <button type="button" data-degree="${degree}">×</button>
+        `;
+
+                // Add event listener to the button
+                const button = tag.querySelector('button');
+                if (button) {
+                    button.addEventListener('click', function () {
+                        const degreeToRemove = this.getAttribute('data-degree');
+                        degrees = degrees.filter(d => d !== degreeToRemove);
+                        tag.remove();
+                        updateDegreesInput();
+                    });
+                }
+
+                return tag;
+            }
+
+            // Add event listener for degrees input
+            if (degreesInput && degreesContainer) {
+                degreesInput.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const degree = this.value.trim();
+
+                        if (degree !== '' && !degrees.includes(degree)) {
+                            degrees.push(degree);
+                            const tag = createDegreeTag(degree);
+                            degreesContainer.insertBefore(tag, degreesInput);
+                            updateDegreesInput();
+                            this.value = '';
+                        }
+                    }
+                });
+
+                // Initialize the degrees hidden input
+                updateDegreesInput();
+            }
+        });
+    </script>
+</body>
+
+</html>

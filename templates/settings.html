@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary-color: #3f37c9;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 0.5rem;
+            --transition-speed: 0.3s;
+            --sidebar-width: 180px;
+            --header-height: 70px;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all var(--transition-speed);
+            overflow-y: auto;
+            color: var(--dark-color);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #6c757d;
+            transition: all var(--transition-speed);
+            border-left: 3px solid transparent;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 0 0.5rem 0.25rem 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+            border-left: 3px solid var(--primary-color);
+            font-weight: 600;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            color: inherit;
+        }
+
+        /* Special styling for logout */
+        .nav-link.text-danger {
+            color: #dc3545;
+        }
+
+        .nav-link.text-danger:hover {
+            background-color: rgba(220, 53, 69, 0.05);
+            border-left: 3px solid #dc3545;
+        }
+
+        /* Main content area */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: all var(--transition-speed);
+            padding-top: calc(var(--header-height) + 20px);
+            min-height: 100vh;
+        }
+
+        /* Header styling */
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: var(--sidebar-width);
+            height: var(--header-height);
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 900;
+            transition: all var(--transition-speed);
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .user-dropdown {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-dropdown img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-dropdown span {
+            font-weight: 500;
+        }
+
+        .user-dropdown .dropdown-toggle::after {
+            margin-left: 10px;
+        }
+
+        /* Card styling */
+        .card {
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            margin-bottom: 2rem;
+            border: none;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-top-left-radius: var(--border-radius) !important;
+            border-top-right-radius: var(--border-radius) !important;
+            padding: 1.25rem 1.75rem;
+            border-bottom: none;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Form controls */
+        .form-control {
+            border-radius: var(--border-radius);
+            padding: 0.85rem 1rem;
+            border: 1px solid #ced4da;
+            transition: all var(--transition-speed);
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+        /* Buttons */
+        .btn {
+            transition: all var(--transition-speed);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-hover) 0%, var(--secondary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Settings specific styles */
+        .settings-tab-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        .settings-sidebar .nav-link {
+            border-radius: var(--border-radius);
+            margin-bottom: 0.5rem;
+            padding: 0.75rem 1rem;
+        }
+
+        .settings-sidebar .nav-link.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-left: none;
+        }
+
+        .settings-sidebar .nav-link:hover:not(.active) {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary-color);
+            border-left: none;
+        }
+
+        #jsonEditor {
+            height: 400px;
+            width: 100%;
+            font-family: monospace;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            border: 1px solid #ced4da;
+            transition: border-color var(--transition-speed);
+        }
+
+        #jsonEditor:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+        /* Mobile toggle button */
+        .mobile-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                padding-top: 1rem;
+            }
+
+            .sidebar-logo {
+                font-size: 1.2rem;
+            }
+
+            .sidebar-header {
+                padding: 1rem 0.5rem;
+            }
+
+            .nav-link {
+                padding: 0.75rem;
+                justify-content: center;
+            }
+
+            .nav-link i {
+                margin-right: 0;
+            }
+
+            .nav-link span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .header {
+                left: 70px;
+            }
+        }
+
+        /* Mobile view */
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 0;
+                opacity: 0;
+            }
+
+            .sidebar.active {
+                width: var(--sidebar-width);
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header {
+                left: 0;
+            }
+
+            .mobile-toggle {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-logo">ShortlistAI</h1>
+        </div>
+        <ul class="sidebar-nav nav flex-column">
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard_candidate" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Candidates</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard_rank" class="nav-link">
+                    <i class="fas fa-sort-amount-down"></i>
+                    <span>Screening</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/settings" class="nav-link active">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li class="nav-item mt-4">
+                <a href="/logout" class="nav-link text-danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="d-flex align-items-center">
+            <span class="mobile-toggle me-3" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </span>
+            <h1 class="header-title mb-0">Settings</h1>
+        </div>
+        <div class="dropdown">
+            <div class="user-dropdown d-flex align-items-center" data-bs-toggle="dropdown">
+                <i class="fas fa-user-circle" style="font-size: 40px; color: #4361ee;"></i>
+                <span class="ms-2">{{session['name']}}</span>
+                <i class="fas fa-chevron-down ms-2 small"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <!-- <li><a class="dropdown-item" href="/profile"><i class="fas fa-user me-2"></i>Profile</a></li> -->
+                <li><a class="dropdown-item" href="/settings"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-danger" href="/logout"><i
+                            class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <!-- Message Alerts -->
+            {% if session.get('message') %}
+            <div class="alert alert-{{ session.get('message_type', 'info') }} alert-dismissible fade show" role="alert">
+                {{ session.get('message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Account Settings</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 settings-sidebar">
+                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                                aria-orientation="vertical">
+                                <button class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-profile" type="button" role="tab">
+                                    <i class="fas fa-user me-2"></i>Profile
+                                </button>
+                                <button class="nav-link" id="v-pills-security-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-security" type="button" role="tab">
+                                    <i class="fas fa-shield-alt me-2"></i>Security
+                                </button>
+                                <button class="nav-link" id="v-pills-data-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-data" type="button" role="tab">
+                                    <i class="fas fa-database me-2"></i>Data Management
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-9">
+                            <div class="tab-content settings-tab-content" id="v-pills-tabContent">
+                                <!-- Profile Tab -->
+                                <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel">
+                                    <h3 class="mb-4">Profile Information</h3>
+                                    <form action="{{ url_for('update_profile') }}" method="post">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{ current_user.name }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email Address</label>
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                value="{{ current_user.email }}" readonly>
+                                            <div class="form-text">Email cannot be changed.</div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>Update Profile
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <!-- Security Tab -->
+                                <div class="tab-pane fade" id="v-pills-security" role="tabpanel">
+                                    <h3 class="mb-4">Change Password</h3>
+                                    <form action="{{ url_for('change_password') }}" method="post">
+                                        <div class="mb-3">
+                                            <label for="current_password" class="form-label">Current Password</label>
+                                            <input type="password" class="form-control" id="current_password"
+                                                name="current_password" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="new_password" class="form-label">New Password</label>
+                                            <input type="password" class="form-control" id="new_password"
+                                                name="new_password" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="confirm_password" class="form-label">Confirm New
+                                                Password</label>
+                                            <input type="password" class="form-control" id="confirm_password"
+                                                name="confirm_password" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-key me-2"></i>Change Password
+                                        </button>
+                                    </form>
+
+                                    <hr class="my-4">
+
+                                    <h3 class="mb-4">API Key Management</h3>
+                                    <form action="{{ url_for('change_api_key') }}" method="post">
+                                        <div class="mb-3">
+                                            <label for="current_api_key" class="form-label">Current API Key</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="current_api_key"
+                                                    name="current_api_key" value="{{ current_api_key }}" readonly>
+                                                <button class="btn btn-outline-secondary" type="button" id="copyApiKey">
+                                                    <i class="fas fa-copy"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="new_api_key" class="form-label">New API Key</label>
+                                            <input type="text" class="form-control" id="new_api_key" name="new_api_key"
+                                                required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="confirm_api_key" class="form-label">Confirm New API Key</label>
+                                            <input type="text" class="form-control" id="confirm_api_key"
+                                                name="confirm_api_key" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-sync-alt me-2"></i>Change API Key
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <!-- Data Management Tab -->
+                                <div class="tab-pane fade" id="v-pills-data" role="tabpanel">
+                                    <h3 class="mb-4">Resume Data Management</h3>
+                                    <p>Edit your parsed resume data directly. Be careful as improper edits may affect
+                                        ranking results.</p>
+
+                                    <div class="mb-4">
+                                        <label for="jsonEditor" class="form-label">JSON Data</label>
+                                        <textarea id="jsonEditor" class="form-control">{{ json_data }}</textarea>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between">
+                                        <button id="formatJson" class="btn btn-secondary">
+                                            <i class="fas fa-code me-2"></i>Format JSON
+                                        </button>
+                                        <button id="saveJson" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>Save Changes
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile sidebar toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function () {
+                    sidebar.classList.toggle('active');
+                });
+            }
+
+            // Format JSON button
+            document.getElementById('formatJson').addEventListener('click', function () {
+                const jsonEditor = document.getElementById('jsonEditor');
+                try {
+                    const formattedJson = JSON.stringify(JSON.parse(jsonEditor.value), null, 2);
+                    jsonEditor.value = formattedJson;
+                } catch (error) {
+                    alert('Invalid JSON format. Please check your edits.');
+                }
+            });
+
+            // Save JSON button
+            document.getElementById('saveJson').addEventListener('click', function () {
+                const jsonEditor = document.getElementById('jsonEditor');
+                try {
+                    // Validate JSON before sending
+                    JSON.parse(jsonEditor.value);
+
+                    // Show loading state
+                    const saveBtn = this;
+                    const originalText = saveBtn.innerHTML;
+                    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Saving...';
+                    saveBtn.disabled = true;
+
+                    // Send to server
+                    fetch('{{ url_for("save_json_data") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            data: jsonEditor.value
+                        }),
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Restore button state
+                            saveBtn.innerHTML = originalText;
+                            saveBtn.disabled = false;
+
+                            if (data.status === 'success') {
+                                // Show success message
+                                const alertDiv = document.createElement('div');
+                                alertDiv.className = 'alert alert-success alert-dismissible fade show mt-3';
+                                alertDiv.role = 'alert';
+                                alertDiv.innerHTML = `
+                                    <i class="fas fa-check-circle me-2"></i>Data saved successfully!
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                `;
+
+                                const tabPane = document.getElementById('v-pills-data');
+                                tabPane.appendChild(alertDiv);
+
+                                // Auto dismiss after 5 seconds
+                                setTimeout(() => {
+                                    const dismissBtn = alertDiv.querySelector('.btn-close');
+                                    if (dismissBtn) {
+                                        dismissBtn.click();
+                                    }
+                                }, 5000);
+                            } else {
+                                alert('Error: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            saveBtn.innerHTML = originalText;
+                            saveBtn.disabled = false;
+                            alert('Error saving data: ' + error);
+                        });
+                } catch (error) {
+                    alert('Invalid JSON format. Please check your edits.');
+                }
+            });
+
+            // Copy API Key button
+            const copyApiKeyBtn = document.getElementById('copyApiKey');
+            if (copyApiKeyBtn) {
+                copyApiKeyBtn.addEventListener('click', function () {
+                    const apiKeyInput = document.getElementById('current_api_key');
+                    apiKeyInput.select();
+                    document.execCommand('copy');
+
+                    // Show feedback
+                    const originalHtml = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        this.innerHTML = originalHtml;
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

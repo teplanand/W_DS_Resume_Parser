@@ -1,0 +1,84 @@
+{
+    "ranked_resumes": [
+        {
+            "index": 4,
+            "name": "JAMES CHANG",
+            "skill_score": 100.0,
+            "exp_score": 100.0,
+            "exp_years": 13.3,
+            "degree_score": 0,
+            "weighted_skill": 50.0,
+            "weighted_exp": 50.0,
+            "weighted_degree": 0.0,
+            "raw_total": 100.0,
+            "total_score": 66.67,
+            "skill_breakdown": {
+                ".Net": 100.0
+            }
+        },
+        {
+            "index": 3,
+            "name": "Claudia Alves",
+            "skill_score": 1.0,
+            "exp_score": 60.15,
+            "exp_years": 8.0,
+            "degree_score": 0,
+            "weighted_skill": 0.5,
+            "weighted_exp": 30.08,
+            "weighted_degree": 0.0,
+            "raw_total": 30.58,
+            "total_score": 20.38,
+            "skill_breakdown": {
+                ".Net": 0
+            }
+        },
+        {
+            "index": 0,
+            "name": "Nishil",
+            "skill_score": 22.83,
+            "exp_score": 0.0,
+            "exp_years": 0.0,
+            "degree_score": 0,
+            "weighted_skill": 11.42,
+            "weighted_exp": 0.0,
+            "weighted_degree": 0.0,
+            "raw_total": 11.42,
+            "total_score": 7.61,
+            "skill_breakdown": {
+                ".Net": 0.0
+            }
+        },
+        {
+            "index": 2,
+            "name": "VATSAL PATEL",
+            "skill_score": 17.23,
+            "exp_score": 0.75,
+            "exp_years": 0.1,
+            "degree_score": 0,
+            "weighted_skill": 8.62,
+            "weighted_exp": 0.38,
+            "weighted_degree": 0.0,
+            "raw_total": 8.99,
+            "total_score": 6.0,
+            "skill_breakdown": {
+                ".Net": 0.0
+            }
+        },
+        {
+            "index": 1,
+            "name": "OM PATEL",
+            "skill_score": 12.66,
+            "exp_score": 0.75,
+            "exp_years": 0.1,
+            "degree_score": 0,
+            "weighted_skill": 6.33,
+            "weighted_exp": 0.38,
+            "weighted_degree": 0.0,
+            "raw_total": 6.71,
+            "total_score": 4.47,
+            "skill_breakdown": {
+                ".Net": 0.0
+            }
+        }
+    ]
+}

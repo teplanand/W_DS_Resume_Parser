@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+    <style>
+        /* Cleaned and consolidated CSS */
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary-color: #3f37c9;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 0.5rem;
+            --transition-speed: 0.3s;
+            --sidebar-width: 180px;
+            --header-height: 70px;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all var(--transition-speed);
+            overflow-y: auto;
+            color: var(--dark-color);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #6c757d;
+            transition: all var(--transition-speed);
+            border-left: 3px solid transparent;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 0 0.5rem 0.25rem 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+            border-left: 3px solid var(--primary-color);
+            font-weight: 600;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            color: inherit;
+        }
+
+        .nav-link.text-danger {
+            color: #dc3545;
+        }
+
+        .nav-link.text-danger:hover {
+            background-color: rgba(220, 53, 69, 0.05);
+            border-left: 3px solid #dc3545;
+        }
+
+        /* Main content area */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: all var(--transition-speed);
+            padding-top: calc(var(--header-height) + 20px);
+            min-height: 100vh;
+        }
+
+        /* Header styling */
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: var(--sidebar-width);
+            height: var(--header-height);
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 900;
+            transition: all var(--transition-speed);
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .user-dropdown {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-dropdown img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-dropdown span {
+            font-weight: 500;
+        }
+
+        .user-dropdown .dropdown-toggle::after {
+            margin-left: 10px;
+        }
+
+        /* Card styling */
+        .card {
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            margin-bottom: 2rem;
+            border: none;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            width: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-top-left-radius: var(--border-radius) !important;
+            border-top-right-radius: var(--border-radius) !important;
+            padding: 1.25rem 1.75rem;
+            border-bottom: none;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Table styling */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .resume-table {
+            width: 100%;
+            margin-bottom: 0;
+            color: #212529;
+            border-collapse: separate;
+            border-spacing: 0;
+            table-layout: auto;
+            word-break: break-word;
+            background: white;
+        }
+
+        .resume-table th {
+            background-color: #e7ecff;
+            color: var(--primary-color);
+            font-weight: 600;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+            padding: 1rem 1.25rem;
+            border: none !important;
+        }
+
+        .resume-table th:first-child {
+            border-top-left-radius: var(--border-radius);
+        }
+
+        .resume-table th:last-child {
+            border-top-right-radius: var(--border-radius);
+        }
+
+        .resume-table td {
+            padding: 1rem 1.25rem;
+            vertical-align: middle;
+            border-top: none !important;
+            border-right: none !important;
+            border-left: none !important;
+            border-bottom: 1px solid #f0f0f0 !important;
+            background: white;
+        }
+
+        .resume-table tbody tr {
+            transition: background-color var(--transition-speed);
+        }
+
+        .resume-table tbody tr:hover {
+            background-color: #f6f9ff;
+        }
+
+        .resume-table tbody tr:last-child td {
+            border-bottom: none !important;
+        }
+
+        /* Candidate name styling */
+        .candidate-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        /* Contact info styling */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .contact-item i {
+            width: 20px;
+            color: #6c757d;
+            margin-right: 0.5rem;
+        }
+
+        /* Action buttons styling */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-view {
+            background-color: #4361ee;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background-color: #3a56d4;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-delete {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #ff3a5e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+        }
+
+        .badge-index {
+            min-width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        /* Candidate card header */
+        .candidate-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .candidate-card-title {
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.15rem;
+            letter-spacing: 0.02em;
+        }
+
+        .toggle-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-control {
+            border-radius: var(--border-radius);
+            padding: 0.85rem 1rem;
+            border: 1px solid #ced4da;
+            transition: all var(--transition-speed);
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+        .form-select {
+            border-radius: var(--border-radius);
+            padding: 0.85rem 1rem;
+            transition: all var(--transition-speed);
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+
+        .btn {
+            transition: all var(--transition-speed);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-hover) 0%, var(--secondary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Loading animation */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 5px solid rgba(67, 97, 238, 0.1);
+            border-top-color: var(--primary-color);
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                padding-top: 1rem;
+            }
+
+            .sidebar-logo {
+                font-size: 1.2rem;
+            }
+
+            .sidebar-header {
+                padding: 1rem 0.5rem;
+            }
+
+            .nav-link {
+                padding: 0.75rem;
+                justify-content: center;
+            }
+
+            .nav-link i {
+                margin-right: 0;
+            }
+
+            .nav-link span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .header {
+                left: 70px;
+            }
+        }
+
+        /* Mobile view */
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 0;
+                opacity: 0;
+            }
+
+            .sidebar.active {
+                width: var(--sidebar-width);
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header {
+                left: 0;
+            }
+
+            .mobile-toggle {
+                display: block !important;
+            }
+        }
+
+        .mobile-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Stats cards */
+        .stats-card {
+            border-radius: var(--border-radius);
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            transition: all var(--transition-speed);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .stats-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            border-radius: 12px;
+        }
+
+        .stats-details h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stats-details p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading overlay -->
+    <!-- <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div> -->
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-logo">ShortlistAI</h1>
+        </div>
+        <ul class="sidebar-nav nav flex-column">
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard_candidate" class="nav-link active">
+                    <i class="fas fa-users"></i>
+                    <span>Candidates</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard_rank" class="nav-link">
+                    <i class="fas fa-sort-amount-down"></i>
+                    <span>Screening</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/settings" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li class="nav-item mt-4">
+                <a href="/logout" class="nav-link text-danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="d-flex align-items-center">
+            <span class="mobile-toggle me-3" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </span>
+            <h1 class="header-title mb-0">Candidates</h1>
+        </div>
+        <div class="dropdown">
+            <div class="user-dropdown d-flex align-items-center" data-bs-toggle="dropdown">
+                <i class="fas fa-user-circle" style="font-size: 40px; color: #4361ee;"></i>
+                <span class="ms-2">{{session['name']}}</span>
+
+                <i class="fas fa-chevron-down ms-2 small"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <!-- <li><a class="dropdown-item" href="/profile"><i class="fas fa-user me-2"></i>Profile</a></li> -->
+                <li><a class="dropdown-item" href="/settings"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-danger" href="/logout"><i
+                            class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <!-- Overview Cards -->
+            <!-- <div class="row mb-4">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+                                <i class="fas fa-file-alt text-primary fa-2x"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Total Resumes</h6>
+                                <h3 class="mb-0">246</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+                                <i class="fas fa-user-check text-success fa-2x"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Shortlisted</h6>
+                                <h3 class="mb-0">52</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                                <i class="fas fa-hourglass-half text-warning fa-2x"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Pending Review</h6>
+                                <h3 class="mb-0">18</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3">
+                                <i class="fas fa-briefcase text-info fa-2x"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Open Positions</h6>
+                                <h3 class="mb-0">8</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Resume Upload Section -->
+            <div class="card mb-4">
+                <div class="card-header">
+
+                    <h5 class="mb-0">Candidate Profiles</h5>
+                </div>
+
+                <div class="card-body p-4">
+                    <!-- Parsed Resumes Section HTML - IMPROVED -->
+                    {% if parsed_resumes %}
+                    <!-- <div class="card shadow-sm border-0 mt-4"> -->
+                    <!-- <div class="card-header bg-success text-white">
+                            <div class="candidate-card-header">
+                                <h5 class="mb-0 fw">Candidate Profiles</h5>
+                                <button class="toggle-btn" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#candidateProfiles" aria-expanded="true"
+                                    aria-controls="candidateProfiles">
+                                    <i class="fas fa-chevron-down"></i>
+                                </button>
+                            </div> -->
+
+
+
+                    <!-- </div> -->
+
+                    <div class="collapse show" id="candidateProfiles">
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="resume-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 60px">#</th>
+                                            <th>Name</th>
+                                            <th>Contact Information</th>
+                                            <th style="width: 120px">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for resume in parsed_resumes %}
+                                        <tr>
+                                            <!-- Index -->
+                                            <td class="text-center">
+                                                <span class="badge-index">{{ loop.index }}</span>
+                                            </td>
+
+                                            <!-- Name -->
+                                            <td>
+                                                <span class="candidate-name">{{ resume.name }}</span>
+                                            </td>
+
+                                            <!-- Contact -->
+                                            <td>
+                                                <div class="contact-info">
+                                                    <div class="contact-item">
+                                                        <i class="fas fa-envelope"></i>
+                                                        <span>{{ resume.email }}</span>
+                                                    </div>
+                                                    <div class="contact-item">
+                                                        <i class="fas fa-phone"></i>
+                                                        <span>{{ resume.phone }}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <!-- Action Column -->
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <!-- View Details Button -->
+                                                    <a href="{{ url_for('resume_detail', index=loop.index0) }}"
+                                                        class="btn-action btn-view" title="View Details">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+
+                                                    <!-- Delete Button -->
+                                                    <form method="POST"
+                                                        action="{{ url_for('delete_candidate', index=loop.index0) }}"
+                                                        style="display: inline;">
+                                                        <button type="submit" class="btn-action btn-delete"
+                                                            title="Delete Candidate">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        /* Cleaned JavaScript */
+        // Mobile sidebar toggle functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            // Handle sidebar toggle for mobile
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function () {
+                    sidebar.classList.toggle('active');
+                });
+            }
+
+            // Handle delete confirmation
+            document.querySelectorAll('form[action*="delete_candidate"]').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to delete this candidate?')) {
+                        this.submit();
+                    }
+                });
+            });
+
+            // Initialize Bootstrap tooltips if available
+            if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

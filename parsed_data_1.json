@@ -1,0 +1,289 @@
+[
+    {
+        "email": "pnishil266@gmail.com",
+        "phone": "090161 00937",
+        "skills": [
+            "Algorithms",
+            "Anaconda",
+            "Analytics",
+            "C++",
+            "Communication",
+            "Computer Networking",
+            "Computer Vision",
+            "Critical Thinking",
+            "Css",
+            "Cuda",
+            "Cudnn",
+            "Data Science",
+            "Data Structures",
+            "Facial Recognition",
+            "Flask",
+            "Html",
+            "Information Technology",
+            "Keras",
+            "Leadership",
+            "Libraries",
+            "Matplotlib",
+            "Numpy",
+            "Opencv",
+            "Pandas",
+            "Problem Solve",
+            "Python",
+            "Recommendation System",
+            "Scikit Learn",
+            "Seaborn",
+            "Sql",
+            "Sqlite",
+            "Teamwork",
+            "Tensorflow",
+            "Time Management",
+            "Web Development"
+        ],
+        "name": "Nishil",
+        "education": [
+            {
+                "degree": "Bachelor of Information Technology",
+                "location": "A.D.Patel Institute of Technology | CVM University",
+                "result": "8.93/10"
+            },
+            {
+                "degree": "Higher Secondary School",
+                "location": "D.Z.Patel Higher Secondary School",
+                "result": "82%"
+            }
+        ],
+        "experience": [
+            {
+                "job_title": "Data science and Machine learning internship",
+                "company": "brainybeam pvt ltd(Ahmedabad)",
+                "duration": "N/A"
+            }
+        ],
+        "references": "N/A"
+    },
+    {
+        "email": "omypower18@gmail.com",
+        "phone": "6353684713",
+        "skills": [
+            "Anaconda",
+            "Bootstrap",
+            "C++",
+            "Canva",
+            "Css",
+            "Facial Recognition",
+            "Figma",
+            "Flask",
+            "Git",
+            "Github",
+            "Html",
+            "Information Technology",
+            "Java",
+            "Machine Learn",
+            "Matplotlib",
+            "Numpy",
+            "Opencv",
+            "Pandas",
+            "Price Analysis",
+            "Python",
+            "Scikit Learn",
+            "Seaborn",
+            "Sqlalchemy",
+            "Sqlite",
+            "Web Development"
+        ],
+        "name": "OM PATEL",
+        "education": [
+            {
+                "degree": "Bachelor of Information Technology",
+                "location": "A D Patel Institute of Technology | CVM University",
+                "result": "CGPA: 9.63 / 10.0"
+            },
+            {
+                "degree": "Higher Secondary (GSEB)",
+                "location": "D Z Patel Higher Secondary School, Anand",
+                "result": "SCORE: 86%"
+            },
+            {
+                "degree": "Python for Everybody (Specialization)",
+                "location": "Coursera | University of Michigan",
+                "result": "SCORE: 92%"
+            },
+            {
+                "degree": "Secondary (GSEB)",
+                "location": "Bavis Gam Vidyalaya, Vallabh Vidyanagar",
+                "result": "SCORE: 84%"
+            }
+        ],
+        "experience": [
+            {
+                "job_title": "DS & Machine Learning (Intern)",
+                "company": "STYPIX (Ahmedabad)",
+                "duration": "MAY 2024 - JUNE 2024"
+            }
+        ],
+        "references": "N/A"
+    },
+    {
+        "email": "vatsalpatel0025@gmail.com",
+        "phone": "6354743777",
+        "skills": [
+            "Automated Attendance",
+            "B",
+            "Barcode",
+            "C",
+            "C++",
+            "Css",
+            "Data Science",
+            "Decision Making",
+            "English",
+            "Feature Extraction",
+            "Flask",
+            "Html",
+            "Java",
+            "Javascript",
+            "Libraries",
+            "Management System",
+            "Matplotlib",
+            "Numpy",
+            "Opencv",
+            "Pandas",
+            "Php",
+            "Predict",
+            "Predicting",
+            "Python",
+            "R",
+            "Seaborn",
+            "Sql"
+        ],
+        "name": "VATSAL PATEL",
+        "education": [
+            {
+                "degree": "Bachelor of Engineering",
+                "location": "CVM - The Charutar Vidhya Mandal University",
+                "result": "9.45/10"
+            },
+            {
+                "degree": "NCERT (CLASS XII)",
+                "location": "B.R.J.P Pardiwala English Medium School",
+                "result": "85%"
+            },
+            {
+                "degree": "GSEB (CLASS X)",
+                "location": "B.R.J.P Pardiwala English Medium School",
+                "result": "80%"
+            }
+        ],
+        "experience": [
+            {
+                "job_title": "Data Science & Machine Learning Intern",
+                "company": "iTechBrains",
+                "duration": "05/2024 - 06/2024"
+            }
+        ],
+        "references": "N/A"
+    },
+    {
+        "email": "Hello@reallygreatsite.com",
+        "phone": "123-456-7890",
+        "skills": [
+            "Creativity",
+            "Editing",
+            "Journalism",
+            "Multimedia",
+            "Online Marketing",
+            "Problem Solve",
+            "Public Speak",
+            "Team Leadership"
+        ],
+        "name": "Claudia Alves",
+        "education": [
+            {
+                "degree": "Bachelor Degree of Journalism",
+                "location": "Borcelle University",
+                "result": "N/A"
+            },
+            {
+                "degree": "Master Degree of Multimedia",
+                "location": "Borcelle University",
+                "result": "N/A"
+            }
+        ],
+        "experience": [
+            {
+                "job_title": "Senior Content Creator",
+                "company": "Studio Shodwe",
+                "duration": "2016 - 2020"
+            },
+            {
+                "job_title": "Senior Content Creator",
+                "company": "Hanover And Tyke",
+                "duration": "2020 - 2024"
+            }
+        ],
+        "references": "N/A"
+    },
+    {
+        "email": "joelle.smith@resumesbot.com",
+        "phone": "678) 757 9413",
+        "skills": [
+            "Asp Net",
+            "Bootstrap",
+            "C",
+            "Communication Organization",
+            "Computer Science",
+            "Couchdb",
+            "Css",
+            "Design Code",
+            "Developed Software",
+            "Html",
+            "Javascript",
+            "Jenkins",
+            "Jquery",
+            "Mongodb",
+            "Mstest",
+            "Net Asp",
+            "Nosql",
+            "Nunit",
+            "Plans",
+            "Quality Assurance",
+            "R",
+            "Scripts",
+            "Specflow",
+            "Supported Windows",
+            "Web Development",
+            "Xunit"
+        ],
+        "name": "JAMES CHANG",
+        "education": [
+            {
+                "degree": "Associate's Degree in",
+                "location": "Pittsburgh University",
+                "result": "N/A"
+            },
+            {
+                "degree": "Computer Science",
+                "location": "Pittsburgh University",
+                "result": "N/A"
+            }
+        ],
+        "experience": [
+            {
+                "job_title": ".NET Developer",
+                "company": "Kim Technologies",
+                "duration": "2015 - Present"
+            },
+            {
+                "job_title": "Junior .NET Developer",
+                "company": "AQUITY Soft",
+                "duration": "2012 - 2015"
+            }
+        ],
+        "references": [
+            {
+                "name": "Joelle Smith",
+                "designation": "Head of IT Department",
+                "contact": "joelle.smith@resumesbot.com"
+            }
+        ]
+    }
+]

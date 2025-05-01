@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary-color: #3f37c9;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 0.5rem;
+            --transition-speed: 0.3s;
+            --sidebar-width: 180px;
+            --header-height: 70px;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar styling */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all var(--transition-speed);
+            overflow-y: auto;
+            color: var(--dark-color);
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #6c757d;
+            transition: all var(--transition-speed);
+            border-left: 3px solid transparent;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 0 0.5rem 0.25rem 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.1);
+            border-left: 3px solid var(--primary-color);
+            font-weight: 600;
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+            color: inherit;
+        }
+
+        .nav-link.text-danger {
+            color: #dc3545;
+        }
+
+        .nav-link.text-danger:hover {
+            background-color: rgba(220, 53, 69, 0.05);
+            border-left: 3px solid #dc3545;
+        }
+
+        /* Main content area */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: all var(--transition-speed);
+            padding-top: calc(var(--header-height) + 20px);
+            min-height: 100vh;
+        }
+
+        /* Header styling */
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: var(--sidebar-width);
+            height: var(--header-height);
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 900;
+            transition: all var(--transition-speed);
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .user-dropdown {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .user-dropdown img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .user-dropdown span {
+            font-weight: 500;
+        }
+
+        .user-dropdown .dropdown-toggle::after {
+            margin-left: 10px;
+        }
+
+        /* Card styling */
+        .card {
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            margin-bottom: 2rem;
+            border: none;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            width: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-top-left-radius: var(--border-radius) !important;
+            border-top-right-radius: var(--border-radius) !important;
+            padding: 1.25rem 1.75rem;
+            border-bottom: none;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Table styling */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .resume-table {
+            width: 100%;
+            margin-bottom: 0;
+            color: #212529;
+            border-collapse: separate;
+            border-spacing: 0;
+            table-layout: auto;
+            word-break: break-word;
+            background: white;
+        }
+
+        .resume-table th {
+            background-color: #e7ecff;
+            color: var(--primary-color);
+            font-weight: 600;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+            padding: 1rem 1.25rem;
+            border: none !important;
+        }
+
+        .resume-table th:first-child {
+            border-top-left-radius: var(--border-radius);
+        }
+
+        .resume-table th:last-child {
+            border-top-right-radius: var(--border-radius);
+        }
+
+        .resume-table td {
+            padding: 1rem 1.25rem;
+            vertical-align: middle;
+            border-top: none !important;
+            border-right: none !important;
+            border-left: none !important;
+            border-bottom: 1px solid #f0f0f0 !important;
+            background: white;
+        }
+
+        .resume-table tbody tr {
+            transition: background-color var(--transition-speed);
+        }
+
+        .resume-table tbody tr:hover {
+            background-color: #f6f9ff;
+        }
+
+        .resume-table tbody tr:last-child td {
+            border-bottom: none !important;
+        }
+
+        /* Candidate name styling */
+        .candidate-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        /* Contact info styling */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .contact-item i {
+            width: 20px;
+            color: #6c757d;
+            margin-right: 0.5rem;
+        }
+
+        /* Action buttons styling */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-view {
+            background-color: #4361ee;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background-color: #3a56d4;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-delete {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #ff3a5e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
+        }
+
+        .badge-index {
+            min-width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        /* Candidate card header */
+        .candidate-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .candidate-card-title {
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.15rem;
+            letter-spacing: 0.02em;
+        }
+
+        .toggle-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-control {
+            border-radius: var(--border-radius);
+            padding: 0.85rem 1rem;
+            border: 1px solid #ced4da;
+            transition: all var(--transition-speed);
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        }
+
+        .form-select {
+            border-radius: var(--border-radius);
+            padding: 0.85rem 1rem;
+            transition: all var(--transition-speed);
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+
+        .btn {
+            transition: all var(--transition-speed);
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-hover) 0%, var(--secondary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Loading animation */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 5px solid rgba(67, 97, 238, 0.1);
+            border-top-color: var(--primary-color);
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                padding-top: 1rem;
+            }
+
+            .sidebar-logo {
+                font-size: 1.2rem;
+            }
+
+            .sidebar-header {
+                padding: 1rem 0.5rem;
+            }
+
+            .nav-link {
+                padding: 0.75rem;
+                justify-content: center;
+            }
+
+            .nav-link i {
+                margin-right: 0;
+            }
+
+            .nav-link span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 70px;
+            }
+
+            .header {
+                left: 70px;
+            }
+        }
+
+        /* Mobile view */
+        @media (max-width: 576px) {
+            .sidebar {
+                width: 0;
+                opacity: 0;
+            }
+
+            .sidebar.active {
+                width: var(--sidebar-width);
+                opacity: 1;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header {
+                left: 0;
+            }
+
+            .mobile-toggle {
+                display: block !important;
+            }
+        }
+
+        .mobile-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Stats cards */
+        .stats-card {
+            border-radius: var(--border-radius);
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            transition: all var(--transition-speed);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .stats-icon {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            border-radius: 12px;
+        }
+
+        .stats-details h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stats-details p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        /* Section cards */
+        .section-card {
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background-color: #e7ecff;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section-body {
+            padding: 1.25rem;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background-color: rgba(67, 97, 238, 0.05);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .badge-skill {
+            background-color: #e7ecff;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+
+        .project-card {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-card h5 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 0.75rem;
+        }
+
+        .btn-back {
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Profile elements */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background-color: #e7ecff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 2rem;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .profile-info h2 {
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .profile-info p {
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            color: #495057;
+        }
+
+        .contact-item i {
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .score-badge {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            margin-left: 1rem;
+        }
+
+        .highlight-matched {
+            background-color: rgba(67, 97, 238, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        .total-exp {
+            background-color: #e7ecff;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(67, 97, 238, 0.2);
+        }
+
+        .total-exp-text {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .total-exp-value {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .skill-chart-container {
+            height: 300px;
+            margin-top: 1.5rem;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .reference-card {
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .reference-name {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .reference-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-logo">ShortlistAI</h1>
+        </div>
+        <ul class="sidebar-nav nav flex-column">
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard_candidate" class="nav-link active">
+                    <i class="fas fa-users"></i>
+                    <span>Candidates</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard_rank" class="nav-link">
+                    <i class="fas fa-sort-amount-down"></i>
+                    <span>Screening</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/settings" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+            <li class="nav-item mt-4">
+                <a href="/logout" class="nav-link text-danger">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="d-flex align-items-center">
+            <span class="mobile-toggle me-3" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </span>
+            <h1 class="header-title mb-0">Candidates</h1>
+        </div>
+        <div class="dropdown">
+            <div class="user-dropdown d-flex align-items-center" data-bs-toggle="dropdown">
+                <i class="fas fa-user-circle" style="font-size: 40px; color: #4361ee;"></i>
+                <span class="ms-2">{{session['name']}}</span>
+                <i class="fas fa-chevron-down ms-2 small"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <!-- <li><a class="dropdown-item" href="/profile"><i class="fas fa-user me-2"></i>Profile</a></li> -->
+                <li><a class="dropdown-item" href="/settings"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-danger" href="/logout"><i
+                            class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container-fluid">
+
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">Resume Details</h5>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h2>{{ resume.name }}</h2>
+                            {% if resume.match_score %}
+                            <div class="d-flex align-items-center">
+                                <p>Match Score <span class="score-badge">{{ resume.match_score }}%</span></p>
+                            </div>
+                            {% endif %}
+                            <div class="contact-info">
+                                {% if resume.email %}
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>{{ resume.email }}</span>
+                                </div>
+                                {% endif %}
+                                <!-- {% if resume.location %}
+                                            <div class="contact-item">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                <span>{{ resume.location }}</span>
+                                            </div>
+                                            {% endif %} -->
+                                {% if resume.phone %}
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>{{ resume.phone }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Education Section -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h4 class="section-title mb-0">
+                                <i class="fas fa-graduation-cap"></i>Education
+                            </h4>
+                        </div>
+                        <div class="section-body">
+                            {% if resume.education %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Degree</th>
+                                            <th>Institution</th>
+                                            <th>Result</th>
+                                            <!-- <th>Duration</th>   -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for edu in resume.education %}
+                                        <tr>
+                                            <td>{{ edu.degree }}</td>
+                                            <td>{{ edu.location }}</td>
+                                            <td>{{ edu.result }}</td>
+                                            <!-- <td>{{ edu.duration if edu.duration else "N/A" }}</td> -->
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <p class="text-muted">No education information available</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Experience Section -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h4 class="section-title mb-0">
+                                <i class="fas fa-briefcase"></i>Experience
+                            </h4>
+                        </div>
+                        <div class="section-body">
+                            {% if resume.experience %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Job Title</th>
+                                            <th>Company</th>
+                                            <th>Duration</th>
+                                            <!-- <th>Location</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for exp in resume.experience %}
+                                        <tr>
+                                            <td>{{ exp.job_title }}</td>
+                                            <td>{{ exp.company }}</td>
+                                            <td>{{ exp.duration }}</td>
+                                            <!-- <td>{{ exp.location }}</td> -->
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Total Experience Section (New) -->
+                            {%if ranking.exp_years %}
+                            <div class="total-exp">
+                                <p class="total-exp-text">
+                                    <i class="fas fa-history me-2"></i>Total Professional Experience
+                                </p>
+                                <span class="total-exp-value">{{ ranking.exp_years }} Years</span>
+                            </div>
+                            {% endif %}
+
+
+                            {% else %}
+                            <p class="text-muted">No experience information available</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Skills Section -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h4 class="section-title mb-0">
+                                <i class="fas fa-tools"></i>Skills
+                            </h4>
+                        </div>
+                        <div class="section-body">
+                            {% if resume.skills %}
+                            <div class="d-flex flex-wrap">
+                                {% for skill in resume.skills %}
+                                {% if matched_skills and skill in matched_skills %}
+                                <span class="badge-skill highlight-matched">{{ skill }}</span>
+                                {% else %}
+                                <span class="badge-skill">{{ skill }}</span>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            <!-- Skill Breakdown Chart (Fixed) -->
+                            <!-- {{resume.skill_breakdown}} -->
+                            {% if resume.skill_breakdown and resume.skill_breakdown|length > 0 %}
+                            <div class="skill-chart-container" style="height: 300px; width: 100%;">
+                                <canvas id="skillBreakdownChart"></canvas>
+                            </div>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    // Make sure Chart.js is loaded
+                                    if (typeof Chart === 'undefined') {
+                                        console.error('Chart.js is not loaded');
+                                        return;
+                                    }
+
+                                    // Get the canvas element
+                                    const ctx = document.getElementById('skillBreakdownChart');
+                                    if (!ctx) {
+                                        console.error('Canvas element not found');
+                                        return;
+                                    }
+
+                                    try {
+                                        // Get skill breakdown data as a JSON string and parse it
+                                        const skillBreakdownData = '{{ resume.skill_breakdown|tojson }}';
+                                        const skillBreakdown = JSON.parse(skillBreakdownData);
+
+                                        // Extract skill breakdown data
+                                        const skillLabels = Object.keys(skillBreakdown);
+                                        const skillValues = Object.values(skillBreakdown);
+
+                                        if (skillLabels.length === 0) {
+                                            console.error('No skill breakdown data available');
+                                            return;
+                                        }
+
+                                        // Generate colors (one for each skill category)
+                                        const backgroundColors = [
+                                            'rgba(67, 97, 238, 0.8)',    // Primary blue
+                                            'rgba(63, 55, 201, 0.8)',    // Dark blue
+                                            'rgba(72, 149, 239, 0.8)',   // Medium blue
+                                            'rgba(76, 201, 240, 0.8)',   // Light blue
+                                            'rgba(94, 114, 228, 0.8)',   // Additional blue
+                                            'rgba(130, 94, 228, 0.8)'    // Purple (if needed)
+                                        ];
+
+                                        // Create the chart
+                                        const skillChart = new Chart(ctx, {
+                                            type: 'doughnut',  // Doughnut chart is more modern looking
+                                            data: {
+                                                labels: skillLabels,
+                                                datasets: [{
+                                                    data: skillValues,
+                                                    backgroundColor: backgroundColors.slice(0, skillLabels.length),
+                                                    borderColor: 'white',
+                                                    borderWidth: 2
+                                                }]
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                cutout: '60%', // Adjusted hole size for better spacing
+                                                layout: {
+                                                    padding: {
+                                                        top: 20,
+                                                        bottom: 20
+                                                    }
+                                                },
+                                                plugins: {
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Required Skill Breakdown',
+                                                        font: {
+                                                            family: 'Poppins, Segoe UI, sans-serif',
+                                                            size: 18,
+                                                            weight: 'bold'
+                                                        },
+                                                        padding: {
+                                                            bottom: 15
+                                                        },
+                                                        color: '#2c3e50'
+                                                    },
+                                                    legend: {
+                                                        position: 'bottom', // Moves legend below for better sectioning
+                                                        labels: {
+                                                            font: {
+                                                                family: 'Segoe UI',
+                                                                size: 14
+                                                            },
+                                                            padding: 15,
+                                                            usePointStyle: true,
+                                                            pointStyle: 'circle'
+                                                        }
+                                                    },
+                                                    tooltip: {
+                                                        backgroundColor: 'rgba(0,0,0,0.8)', // Darker tooltip for clarity
+                                                        padding: 10,
+                                                        callbacks: {
+                                                            label: function (context) {
+                                                                const label = context.label || '';
+                                                                const value = context.raw || 0;
+                                                                return `${label}: ${value.toFixed(2)}%`;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                        });
+                                    } catch (error) {
+                                        console.error('Error creating chart:', error);
+                                    }
+                                });
+                            </script>
+                            {% endif %}
+
+                            {% else %}
+                            <p class="text-muted">No skills information available</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- References Section (New) -->
+                    <!-- References Section (New) -->
+                    {% if resume.references and resume.references != "N/A" %}
+                    {% if resume.references|length > 0 %}
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h4 class="section-title mb-0">
+                                <i class="fas fa-user-check"></i>References
+                            </h4>
+                        </div>
+                        <div class="section-body">
+                            <div class="reference-grid">
+                                {% for reference in resume.references %}
+                                <div class="reference-item">
+                                    <div class="reference-header">
+                                        <h5>{{ reference.name }}</h5>
+                                        {% if reference.designation %}
+                                        <p class="designation">{{ reference.designation }}</p>
+                                        {% endif %}
+                                    </div>
+                                    {% if reference.contact %}
+                                    <div class="reference-contact">
+                                        <i class="fas fa-envelope"></i>
+                                        <a href="mailto:{{ reference.contact }}">{{ reference.contact }}</a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</body>
+
+</html>

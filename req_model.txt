@@ -1,0 +1,51 @@
+# Model Installation
+python -m spacy download en_core_web_lg
+
+OR
+
+https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1-py3-none-any.whl
+
+
+# Model Information
+
+📊 Model Specifications
+Model Name: en_core_web_lg
+Version: 3.7.1
+spaCy Compatibility: ≥3.7.2, <3.8.0
+Model Size: Approximately 400 MB
+License: MIT
+Author: Explosion AI
+
+🧠 Core Components
+The model includes the following pipeline components:
+tok2vec: Token-to-vector transformation
+tagger: Part-of-speech tagging
+parser: Dependency parsing
+senter: Sentence segmentation
+attribute_ruler: Rule-based attribute assignment
+lemmatizer: Lemmatization
+ner: Named Entity Recognition
+
+🔢 Model Details
+
+Word Vectors: 514,157 unique vectors
+Vector Dimensions: 300
+Training Sources:
+OntoNotes 5
+WordNet 3.0
+Explosion Vectors (OSCAR 2109, Wikipedia, OpenSubtitles, WMT News Crawl)
+
+📈 Performance Metrics
+
+Token Accuracy: 99.86%
+Part-of-Speech Tagging Accuracy: 97.35%
+Named Entity Recognition F-Score: 85.43%
+Dependency Parsing (UAS): 92.08%
+Sentence Segmentation F-Score: 90.71%
+
+🧩 Label Scheme
+
+The model supports the following labels:
+Tagger: 50+ tags (e.g., NNP, VBZ, DT)
+Parser: 45 dependency labels (e.g., nsubj, dobj, prep)
+NER: 18 entity types (e.g., PERSON, ORG, GPE)
